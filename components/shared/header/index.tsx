@@ -25,6 +25,20 @@ const Header = () => {
             </span>
           </Link>
         </div>
+
+        <div className="space-x-2">
+          <Button asChild variant="ghost">
+            <Link href="/cart" className="relative">
+              <ShoppingCart size={20} /> Cart
+            </Link>
+          </Button>
+
+          <Button asChild>
+            <Link href="/sign-in" className="relative">
+              <UserIcon size={20} /> Sign In
+            </Link>
+          </Button>
+        </div>
       </div>
     </header>
   );
