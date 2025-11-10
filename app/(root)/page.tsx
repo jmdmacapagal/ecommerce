@@ -1,10 +1,15 @@
-// const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+import sampleData from "@/db/sample-data";
+import ProductList from "@/components/shared/product/product-list";
 
 const Homepage = () => {
-  // await delay(2000);
   return (
     <div>
       <h1>Welcome to the Homepage</h1>
+      <ProductList
+        data={sampleData.products}
+        title="Featured Products"
+        limit={4}
+      />
     </div>
   );
 };
