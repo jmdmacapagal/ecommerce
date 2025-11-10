@@ -12,7 +12,7 @@ interface Product {
   numReviews: number;
   stock: number;
   isFeatured: boolean;
-  banner: string;
+  banner: string | null;
 }
 
 const ProductList = ({
