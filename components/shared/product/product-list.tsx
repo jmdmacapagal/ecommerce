@@ -1,11 +1,26 @@
 import ProductCard from "./product-card";
 
+interface Product {
+  name: string;
+  slug: string;
+  category: string;
+  description: string;
+  images: string[];
+  price: number;
+  brand: string;
+  rating: number;
+  numReviews: number;
+  stock: number;
+  isFeatured: boolean;
+  banner: string;
+}
+
 const ProductList = ({
   data,
   title,
   limit,
 }: {
-  data: any[];
+  data: Product[];
   title?: string;
   limit?: number;
 }) => {
@@ -16,7 +31,7 @@ const ProductList = ({
       {data.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {limitedData.map((product) => (
-            <ProductCard key={product.id} product={product} />
+            <ProductCard key={product.name} product={product} />
           ))}
         </div>
       ) : (
