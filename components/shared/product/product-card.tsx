@@ -2,21 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import ProductPrice from "./product-price";
-
-interface Product {
-  name: string;
-  slug: string;
-  category: string;
-  description: string;
-  images: string[];
-  price: number;
-  brand: string;
-  rating: number;
-  numReviews: number;
-  stock: number;
-  isFeatured: boolean;
-  banner: string | null;
-}
+import { Product } from "@/types";
 
 const ProductCard = ({ product }: { product: Product }) => {
   return (
