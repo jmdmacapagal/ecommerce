@@ -1,5 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { ZodError } from "zod";
+import { Prisma } from "@prisma/client";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -16,22 +18,32 @@ export function formatNumberWithDecimal(num: number): string {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function formatError(error: any) {
-  if (error.name === "ZodError") {
-    const fieldErrors = error.issues.map((field: any) => field.message);
-
+export async function formatError(error: unknown): Promise<string> {
+  // Handle Zod errors
+  if (error instanceof ZodError) {
+    const fieldErrors = error.issues.map((issue) => issue.message);
     return fieldErrors.join(". ");
-  } else if (
-    error.name === "PrismaClientKnownRequestError" &&
+  }
+
+  // Handle Prisma unique constraint error (P2002)
+  if (
+    error instanceof Prisma.PrismaClientKnownRequestError &&
     error.code === "P2002"
   ) {
-    const field = error.meta?.target ? error.meta.target[0] : "Field";
+    const field = Array.isArray(error.meta?.target)
+      ? error.meta?.target[0]
+      : "Field";
+
     return `${
       field.charAt(0).toUpperCase() + field.slice(1)
     } already exists. Please use a different ${field}.`;
-  } else {
-    return typeof error.message === "string"
-      ? error.message
-      : JSON.stringify(error.messsage);
   }
+
+  // Generic fallback
+  if (typeof error === "object" && error !== null) {
+    const message = (error as { message?: unknown }).message;
+    return typeof message === "string" ? message : JSON.stringify(message);
+  }
+
+  return "An unknown error occurred.";
 }
