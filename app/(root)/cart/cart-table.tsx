@@ -8,7 +8,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Cart } from "@/types";
 
-const CartTable = ({ cart }: { cart: Cart }) => {
+const CartTable = ({ cart }: { cart?: Cart }) => {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
